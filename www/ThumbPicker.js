@@ -5,6 +5,8 @@ exports.coolMethod = function (arg0, success, error) {
 };
 
 
-exports.coolMethod1 = function (arg0, success, error) {
-    exec(success, error, 'ThumbPicker', 'coolMethod1', [arg0]);
+exports.coolMethod2 = function (arg0, success, error) {
+    exec(success, error, 'ThumbPicker', 'coolMethod2', [arg0]);
 };
+
+
