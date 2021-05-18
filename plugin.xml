@@ -14,5 +14,8 @@
         <config-file parent="/*" target="AndroidManifest.xml"></config-file>
         <framework src="com.github.LuckSiege.PictureSelector:picture_library:v2.6.1"/>
         <source-file src="src/android/ThumbPicker.java" target-dir="src/org/apache/cordova/thumbpicker"/>
+        <source-file src="src/android/GlideEngine.java" target-dir="src/org/apache/cordova/thumbpicker"/>
+        <source-file src="src/android/PictureSelectorEngineImp.java" target-dir="src/org/apache/cordova/thumbpicker"/>
+        <source-file src="src/android/ThumbBackEngine.java" target-dir="src/org/apache/cordova/thumbpicker"/>
     </platform>
 </plugin>
