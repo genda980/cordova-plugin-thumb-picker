@@ -12,5 +12,4 @@
     实现 IApp 接口
     onCreate 方法中 添加 PictureAppMaster.getInstance().setApp(this);
     getPictureSelectorEngine 方法中 return new PictureSelectorEngineImp();
-    end
     
