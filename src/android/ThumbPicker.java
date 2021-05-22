@@ -180,7 +180,50 @@ public class ThumbPicker extends CordovaPlugin {
     }
 
     private void takePicture(CallbackContext callbackContext, JSONObject jsonObject) {
-
+        try {
+            int isCompress = jsonObject.optInt("isCompress", 1);
+            int compressQuality = jsonObject.optInt("compressQuality", 90);
+            int isCrop = jsonObject.optInt("isCrop", 0);
+            int cropQuality = jsonObject.optInt("cropQuality", 90);
+            int cropRatioX = jsonObject.optInt("cropRatioX", 1);
+            int cropRatioY = jsonObject.optInt("cropRatioY", 1);
+            int cropMove = jsonObject.optInt("cropMove", 0);
+            jsonObject.put("openCamera", 1);
+            initSelector(PictureMimeType.ofImage(), jsonObject)
+                    .isCompress(isCompress == 1) // 是否压缩
+                    .compressQuality(compressQuality) // 图片压缩后输出质量 0~ 100
+                    .isEnableCrop(isCrop == 1) // 是否裁剪
+                    .cutOutQuality(cropQuality) // 裁剪输出质量
+                    .withAspectRatio(cropRatioX, cropRatioY) // 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                    .hideBottomControls(false) // 是否显示uCrop工具栏
+                    .freeStyleCropEnabled(cropMove == 1) // 裁剪框是否可拖拽
+                    .circleDimmedLayer(false) // 是否圆形裁剪
+                    .showCropFrame(true) // 是否显示裁剪矩形边框 圆形裁剪时建议设为false
+                    .showCropGrid(false) // 是否显示裁剪矩形网格 圆形裁剪时建议设为false
+                    .isDragFrame(false) // 是否可拖动裁剪框(固定)
+                    .minSelectNum(1)
+                    .selectionMode(PictureConfig.SINGLE)
+                    .forResult(new ThumbBackEngine(ThumbBackEngine.ACTION_CHOOSE_PICTURE, new ThumbBackEngine.IOnBackListener() {
+                        @Override
+                        public void onBack(Object obj, boolean isOrigin) {
+                            if (obj != null) {
+                                try {
+                                    JSONObject res = new JSONObject();
+                                    res.put("images", obj);
+                                    res.put("isOrigin", isOrigin);
+                                    callbackContext.success(res);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    callbackContext.error("parse res error");
+                                }
+                            } else {
+                                callbackContext.error("obj is null");
+                            }
+                        }
+                    }));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void takeVideo(CallbackContext callbackContext, JSONObject jsonObject) {
